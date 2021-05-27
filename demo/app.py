@@ -22,11 +22,10 @@ LABEL_MAP = requests.get(
 
 # @st.cache
 def main():
-    
     # Wide mode
     st.set_page_config(layout="wide")
     # Designing the interface
-    st.title("ZXLariation auto-encoder")
+    st.title("variation auto-encoder")
     # For newline
     st.write('\n')
     test = st.beta_columns(3)
@@ -39,7 +38,7 @@ def main():
     st.write('\n')
     for i in range(4):
         cols[i].write(CAM_METHODS[i])
-#         cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
+        # cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # x,y,z = cols[i + 1].beta_columns(3)
         # x.write("1")
         # y.write("2")
@@ -186,10 +185,11 @@ def main():
                     ax.imshow(activation_map.numpy())
                     ax.axis('off')
                     # cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
-                    x.imagine(img,use_column_width=True)
-                    y.imagine(img,use_column_width=True)
+                    x.image(img,use_column_width=True)
+                    # y.image(img,use_column_width=True)
                     # cols_1.write('1')
                     # cols_2.write("1")
+                    y.pyplot(fig)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
@@ -197,7 +197,8 @@ def main():
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
-                    z.imagine(img,use_column_width=True)
+                    # z.image(img,use_column_width=True)
+                    z.pyplot(fig)
 
 if __name__ == '__main__':
     main()
