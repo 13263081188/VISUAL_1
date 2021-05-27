@@ -31,6 +31,8 @@ def main():
     test = st.beta_columns(3)
     zz = test[0].form("input image")
     # zz.form_submit_button("dont'touch")
+    
+    
     #cam_ for i in range(1000)
     cols = [st.form(str(i)) for i in range(len(CAM_METHODS))]
     # cols[0].write("Input image")
@@ -189,13 +191,13 @@ def main():
                     # y.image(img,use_column_width=True)
                     # cols_1.write('1')
                     # cols_2.write("1")
-                    im = Image.fromarray(activation_map.numpy())
+                    im = Image.fromarray(activation_map.numpy()).convert('RGB')
                     y.image(im,use_column_width = True)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-                    im = Image.fromarray(result)
+                    im = Image.fromarray(result).convert('RGB')
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
