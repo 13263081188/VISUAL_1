@@ -32,11 +32,11 @@ def main():
     zz = test[0].form("input image")
     # zz.form_submit_button("dont'touch")
     #cam_ for i in range(1000)
-    cols = [st.form(str(i)) for i in range(4)]
+    cols = [st.form(str(i)) for i in range(len(CAM_METHODS)]
     # cols[0].write("Input image")
     # zz.form_submit_button("DONT'touch me")
     st.write('\n')
-    for i in range(4):
+    for i in range(len(CAM_METHODS)):
         cols[i].write(CAM_METHODS[i])
         # cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # x,y,z = cols[i + 1].beta_columns(3)
@@ -158,7 +158,7 @@ def main():
     # cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
     # st.write('\n')
-    for i in range(4):
+    for i in range(len(CAM_METHODS)):
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
     # for i in range(1,4):
         if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
