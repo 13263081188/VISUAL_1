@@ -124,14 +124,14 @@ def main():
     default_layer = cams.utils.locate_candidate_layer(model, (3, 224, 224))
     default_layer = ""
     target_layer = st.sidebar.text_input("Target layer", default_layer)
-    cam_method = st.sidebar.selectbox("CAM method", CAM_METHODS)
-    # st.write(cam_method)
-    if cam_method is not None:
-        cam_extractor = cams.__dict__[cam_method](
-            model,
-            target_layer=target_layer if len(target_layer) > 0 else None
-        )
-    # st.write(cam_method)
+#     cam_method = st.sidebar.selectbox("CAM method", CAM_METHODS)
+#     # st.write(cam_method)
+#     if cam_method is not None:
+#         cam_extractor = cams.__dict__[cam_method](
+#             model,
+#             target_layer=target_layer if len(target_layer) > 0 else None
+#         )
+#     # st.write(cam_method)
     class_choices = [f"{idx + 1} - {class_name}" for idx, class_name in enumerate(LABEL_MAP)]
     class_selection = st.sidebar.selectbox("Class selection", ["Predicted class (argmax)"] + class_choices)
     # cols = [st.form(str(i)) for i in range(4)]
@@ -141,6 +141,14 @@ def main():
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # for i in range(1,4):
         if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
+            cam_method =   CAM_METHODS[i]
+            # st.write(cam_method)
+            if cam_method is not None:
+                cam_extractor = cams.__dict__[cam_method](
+                    model,
+                    target_layer=target_layer if len(target_layer) > 0 else None
+                )
+            # st.write(cam_method)
             st.balloons()
             if uploaded_file is None:
                 st.sidebar.error("Please upload an image first")
