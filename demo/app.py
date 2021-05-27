@@ -22,10 +22,11 @@ LABEL_MAP = requests.get(
 
 # @st.cache
 def main():
+    
     # Wide mode
     st.set_page_config(layout="wide")
     # Designing the interface
-    st.title("variation auto-encoder")
+    st.title("ZXLariation auto-encoder")
     # For newline
     st.write('\n')
     test = st.beta_columns(3)
