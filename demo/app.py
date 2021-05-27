@@ -174,7 +174,7 @@ def main():
                     # cols_2.write("1")
 
                     #im > PIL.Image.Image
-                    im = Image.fromarray(activation_map.numpy())
+                    im = Image.fromarray(activation_map.numpy()).convert('RGB')
                     print(type(im))
                     y.image(im, use_column_width=True)
                     # Overlayed CAM
@@ -190,7 +190,7 @@ def main():
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
                     # z.image(img,use_column_width=True)
-                    z.image(im, use_column_width=True)
+                    z.image(result, use_column_width=True)
 
 
 if __name__ == '__main__':
