@@ -34,7 +34,7 @@ def main():
     #cam_ for i in range(1000)
     cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
-    # zz.form_submit_button
+    # zz.form_submit_button("DONT'touch me")
     st.write('\n')
     for i in range(4):
         cols[i].write(CAM_METHODS[i])
@@ -158,7 +158,6 @@ def main():
     # cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
     # st.write('\n')
-
     for i in range(4):
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
     # for i in range(1,4):
@@ -180,26 +179,24 @@ def main():
                         class_idx = LABEL_MAP.index(class_selection.rpartition(" - ")[-1])
                     # Retrieve the CAM
                     activation_map = cam_extractor(class_idx, out)
-                    # x, y, z = cols[i].beta_columns(3)
+                    x, y, z = cols[i].beta_columns(3)
                     # Plot the raw heatmap
                     fig, ax = plt.subplots()
                     ax.imshow(activation_map.numpy())
                     ax.axis('off')
-                    cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
-                    # x.imagine(img)
-                    # y.imagine(img)
-                    cols_1.write('1')
-                    cols_2.write("1")
+                    # cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
+                    x.imagine(img,use_column_width=True)
+                    y.imagine(img,use_column_width=True)
+                    # cols_1.write('1')
+                    # cols_2.write("1")
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
                     ax.axis('off')
-                    cols_3.write("1")
+                    # cols_3.write("1")
                     # cols_2.pyplot(fig)
-                    # z.imagine(img)
-
-
+                    z.imagine(img,use_column_width=True)
 
 if __name__ == '__main__':
     main()
