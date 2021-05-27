@@ -74,7 +74,10 @@ def main():
     # Some number in the range 0-23
     hour_to_filter = st.slider('hour', 0, 23, 17)
     filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
-
+    
+    
+    
+    
     st.subheader('Map of all pickups at %s:00' % hour_to_filter)
     st.map(filtered_data)
 
@@ -191,13 +194,13 @@ def main():
                     # y.image(img,use_column_width=True)
                     # cols_1.write('1')
                     # cols_2.write("1")
-                    im = Image.fromarray(activation_map.numpy())
+                    im = Image.fromarray(activation_map.numpy()).convert('RGB')
                     y.image(im,use_column_width = True)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-                    im = Image.fromarray(result).convert('RGB')
+                    im = result
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
