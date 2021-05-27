@@ -184,7 +184,7 @@ def main():
                     #F represent that grey and pixel value-float 32
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-                    im = Image.fromarray(result).convert('RGB')
+#                     im = Image.fromarray(result).convert('RGB')
                     print("result",type(result))
                     ax.axis('off')
                     # cols_3.write("1")
