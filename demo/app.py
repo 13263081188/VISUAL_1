@@ -39,7 +39,7 @@ def main():
     st.write('\n')
     for i in range(4):
         cols[i].write(CAM_METHODS[i])
-        cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
+#         cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # x,y,z = cols[i + 1].beta_columns(3)
         # x.write("1")
         # y.write("2")
