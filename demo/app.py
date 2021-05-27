@@ -46,7 +46,8 @@ def main():
         # x.write("1")
         # y.write("2")
         # z.write("3")
-
+    all = st.form("ALL")
+    all.header("COMPUTE_ALL")
     st.title('Uber pickups in NYC')
     DATE_COLUMN = 'date/time'
     DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
@@ -124,20 +125,20 @@ def main():
     default_layer = cams.utils.locate_candidate_layer(model, (3, 224, 224))
     default_layer = ""
     target_layer = st.sidebar.text_input("Target layer", default_layer)
-#     cam_method = st.sidebar.selectbox("CAM method", CAM_METHODS)
-#     # st.write(cam_method)
-#     if cam_method is not None:
-#         cam_extractor = cams.__dict__[cam_method](
-#             model,
-#             target_layer=target_layer if len(target_layer) > 0 else None
-#         )
-#     # st.write(cam_method)
+    cam_method = st.sidebar.selectbox("CAM method", CAM_METHODS)
+    # st.write(cam_method)
+    if cam_method is not None:
+        cam_extractor = cams.__dict__[cam_method](
+            model,
+            target_layer=target_layer if len(target_layer) > 0 else None
+        )
+    # st.write(cam_method)
     class_choices = [f"{idx + 1} - {class_name}" for idx, class_name in enumerate(LABEL_MAP)]
     class_selection = st.sidebar.selectbox("Class selection", ["Predicted class (argmax)"] + class_choices)
     # cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
     # st.write('\n')
-   for i in range(len(CAM_METHODS)):
+    for i in range(len(CAM_METHODS)):
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # for i in range(1,4):
         if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
@@ -184,7 +185,7 @@ def main():
                     # im > PIL.Image.Image
                     im = Image.fromarray(activation_map.numpy()).convert('RGB')
                     print(type(im))
-                    y.image(im, use_column_width=True)
+                    y.pyplot(fig)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
 
@@ -198,7 +199,7 @@ def main():
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
                     # z.image(img,use_column_width=True)
-                    z.image(result, use_column_width=True)
+                    z.pyplot(fig)
     if all.form_submit_button("comupte_all"):
         list1 = all.beta_columns(len(CAM_METHODS))
         for i in range(len(CAM_METHODS)):
@@ -206,6 +207,13 @@ def main():
             # for i in range(1,4):
             # if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
             #     st.balloons()
+            cam_method = CAM_METHODS[i]
+            # st.write(cam_method)
+            if cam_method is not None:
+                cam_extractor = cams.__dict__[cam_method](
+                    model,
+                    target_layer=target_layer if len(target_layer) > 0 else None
+                )
             list1[i].header(CAM_METHODS[i])
             if uploaded_file is None:
                 st.sidebar.error("Please upload an image first")
@@ -249,7 +257,7 @@ def main():
                     # F represent that grey and pixel value-float 32
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-                    im = Image.fromarray(result).convert('RGB')
+                    # im = Image.fromarray(result).convert('RGB')
                     print("result", type(result))
                     ax.axis('off')
                     # cols_3.write("1")
@@ -257,7 +265,5 @@ def main():
                     list1[i].pyplot(fig)
                     # z.image(img,use_column_width=True)
                     # z.image(im, use_column_width=True)
-
-
 if __name__ == '__main__':
     main()
