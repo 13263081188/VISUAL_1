@@ -137,11 +137,11 @@ def main():
     # cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
     # st.write('\n')
-    for i in range(len(CAM_METHODS)):
+   for i in range(len(CAM_METHODS)):
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # for i in range(1,4):
         if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
-            cam_method =   CAM_METHODS[i]
+            cam_method = CAM_METHODS[i]
             # st.write(cam_method)
             if cam_method is not None:
                 cam_extractor = cams.__dict__[cam_method](
@@ -168,7 +168,7 @@ def main():
 
                     # Retrieve the CAM
                     activation_map = cam_extractor(class_idx, out)
-                    print("avtivation_map",type(activation_map))
+                    print("avtivation_map", type(activation_map))
                     print(activation_map.size())
                     x, y, z = cols[i].beta_columns(3)
                     # Plot the raw heatmap
@@ -181,24 +181,82 @@ def main():
                     # cols_1.write('1')
                     # cols_2.write("1")
 
-                    #im > PIL.Image.Image
+                    # im > PIL.Image.Image
                     im = Image.fromarray(activation_map.numpy()).convert('RGB')
                     print(type(im))
                     y.image(im, use_column_width=True)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
 
-                    #about mode https://blog.csdn.net/u013066730/article/details/102832597
-                    #F represent that grey and pixel value-float 32
+                    # about mode https://blog.csdn.net/u013066730/article/details/102832597
+                    # F represent that grey and pixel value-float 32
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-#                     im = Image.fromarray(result).convert('RGB')
-                    print("result",type(result))
+                    #                     im = Image.fromarray(result).convert('RGB')
+                    print("result", type(result))
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
                     # z.image(img,use_column_width=True)
                     z.image(result, use_column_width=True)
+    if all.form_submit_button("comupte_all"):
+        list1 = all.beta_columns(len(CAM_METHODS))
+        for i in range(len(CAM_METHODS)):
+            # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
+            # for i in range(1,4):
+            # if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
+            #     st.balloons()
+            list1[i].header(CAM_METHODS[i])
+            if uploaded_file is None:
+                st.sidebar.error("Please upload an image first")
+            else:
+                # st.balloons()
+                with st.spinner('Analyzing...'):
+                    # Preprocess image
+                    img_tensor = normalize(to_tensor(resize(img, (224, 224))), [0.485, 0.456, 0.406],
+                                           [0.229, 0.224, 0.225])
+                    # Forward the image to the model
+                    out = model(img_tensor.unsqueeze(0))
+                    # Select the target class
+                    if class_selection == "Predicted class (argmax)":
+                        class_idx = out.squeeze(0).argmax().item()
+                    else:
+                        class_idx = LABEL_MAP.index(class_selection.rpartition(" - ")[-1])
+
+                    # Retrieve the CAM
+                    activation_map = cam_extractor(class_idx, out)
+                    print("avtivation_map", type(activation_map))
+                    print(activation_map.size())
+                    # x, y, z = cols[i].beta_columns(3)
+                    # Plot the raw heatmap
+                    fig, ax = plt.subplots()
+                    ax.imshow(activation_map.numpy())
+                    ax.axis('off')
+                    # cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
+                    # x.image(img, use_column_width=True)
+                    # y.image(img,use_column_width=True)
+                    # cols_1.write('1')
+                    # cols_2.write("1")
+                    list1[i].pyplot(fig)
+                    # im > PIL.Image.Image
+                    im = Image.fromarray(activation_map.numpy())
+                    print(type(im))
+                    # y.image(im, use_column_width=True)
+                    # Overlayed CAM
+                    fig, ax = plt.subplots()
+
+                    # about mode https://blog.csdn.net/u013066730/article/details/102832597
+                    # F represent that grey and pixel value-float 32
+                    result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
+                    ax.imshow(result)
+                    im = Image.fromarray(result).convert('RGB')
+                    print("result", type(result))
+                    ax.axis('off')
+                    # cols_3.write("1")
+                    # cols_2.pyplot(fig)
+                    list1[i].pyplot(fig)
+                    # z.image(img,use_column_width=True)
+                    # z.image(im, use_column_width=True)
 
 
 if __name__ == '__main__':
