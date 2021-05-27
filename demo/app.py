@@ -197,7 +197,7 @@ def main():
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
-                    im = Image.fromarray(result).convert('RGB')
+                    im = Image.fromarray(result)
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
