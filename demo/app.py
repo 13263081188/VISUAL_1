@@ -34,10 +34,11 @@ def main():
     #cam_ for i in range(1000)
     cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
+    # zz.form_submit_button
     st.write('\n')
     for i in range(4):
         cols[i].write(CAM_METHODS[i])
-    #     cols[i+1].form_submit_button("COMPUTE " + CAM_METHODS[i])
+        # cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i])
         # x,y,z = cols[i + 1].beta_columns(3)
         # x.write("1")
         # y.write("2")
@@ -122,7 +123,7 @@ def main():
         # zz.write("Aa Aa Aa")
         # st.balloons()
         img = Image.open(BytesIO(uploaded_file.read()), mode='r').convert('RGB')
-        zz.image(img)
+        zz.image(img,use_column_width=True)
     if zz.form_submit_button("DONT'touch me"):
         # if uploaded_file is not None:
         # st.balloons()
@@ -157,13 +158,16 @@ def main():
     # cols = [st.form(str(i)) for i in range(4)]
     # cols[0].write("Input image")
     # st.write('\n')
+
     for i in range(4):
         # cols[i + 1].form_submit_button("COMPUTE " + CAM_METHODS[i])
     # for i in range(1,4):
         if cols[i].form_submit_button("COMPUTE " + CAM_METHODS[i]):
+            st.balloons()
             if uploaded_file is None:
                 st.sidebar.error("Please upload an image first")
             else:
+                st.balloons()
                 with st.spinner('Analyzing...'):
                     # Preprocess image
                     img_tensor = normalize(to_tensor(resize(img, (224, 224))), [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
@@ -176,24 +180,26 @@ def main():
                         class_idx = LABEL_MAP.index(class_selection.rpartition(" - ")[-1])
                     # Retrieve the CAM
                     activation_map = cam_extractor(class_idx, out)
-                    x, y, z = cols[i].beta_columns(3)
+                    # x, y, z = cols[i].beta_columns(3)
                     # Plot the raw heatmap
                     fig, ax = plt.subplots()
                     ax.imshow(activation_map.numpy())
                     ax.axis('off')
-                    # cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
-                    x.imagine(img)
-                    y.imagine(img)
-                    # cols_1.write('1')
-                    # cols_2.write("1")
+                    cols_1,cols_2,cols_3 = cols[i].beta_columns(3)
+                    # x.imagine(img)
+                    # y.imagine(img)
+                    cols_1.write('1')
+                    cols_2.write("1")
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
                     ax.axis('off')
-                    # cols_3.write("1")
+                    cols_3.write("1")
                     # cols_2.pyplot(fig)
-                    z.imagine(img)
+                    # z.imagine(img)
+
+
 
 if __name__ == '__main__':
     main()
