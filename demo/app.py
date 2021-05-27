@@ -32,7 +32,7 @@ def main():
     zz = test[0].form("input image")
     # zz.form_submit_button("dont'touch")
     #cam_ for i in range(1000)
-    cols = [st.form(str(i)) for i in range(len(CAM_METHODS)]
+    cols = [st.form(str(i)) for i in range(len(CAM_METHODS))]
     # cols[0].write("Input image")
     # zz.form_submit_button("DONT'touch me")
     st.write('\n')
@@ -189,16 +189,18 @@ def main():
                     # y.image(img,use_column_width=True)
                     # cols_1.write('1')
                     # cols_2.write("1")
-                    y.pyplot(fig)
+                    im = Image.fromarray(activation_map.numpy())
+                    y.image(im,use_column_width = True)
                     # Overlayed CAM
                     fig, ax = plt.subplots()
                     result = overlay_mask(img, to_pil_image(activation_map, mode='F'), alpha=0.5)
                     ax.imshow(result)
+                    im = Image.fromarray(result)
                     ax.axis('off')
                     # cols_3.write("1")
                     # cols_2.pyplot(fig)
                     # z.image(img,use_column_width=True)
-                    z.pyplot(fig)
+                    z.image(im,use_column_width = True)
 
 if __name__ == '__main__':
     main()
