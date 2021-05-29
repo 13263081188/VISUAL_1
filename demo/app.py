@@ -214,11 +214,11 @@ def main():
                     model,
                     target_layer=target_layer if len(target_layer) > 0 else None
                 )
-            list1[i].header(CAM_METHODS[i])
+            list1[i].header(CAM_METHODS[i]，use_column_width=True)
             if uploaded_file is None:
                 st.sidebar.error("Please upload an image first")
             else:
-                # st.balloons()
+                st.balloons()
                 with st.spinner('Analyzing...'):
                     # Preprocess image
                     img_tensor = normalize(to_tensor(resize(img, (224, 224))), [0.485, 0.456, 0.406],
